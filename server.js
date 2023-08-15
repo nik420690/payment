@@ -148,7 +148,7 @@ app.post("/payments", jwtAuth, async (req, res) => {
     logMessageToRabbitMQ(correlationId, "Received a request to create a payment", "INFO", "/payments", "payment-service");
 
     // Make an HTTP request to get the users data
-    const usersResponse = await axios.get("http://127.0.0.1:8000/users/");
+    const usersResponse = await axios.get("https://user-xojp.onrender.com/users/");
     const usersData = usersResponse.data;
     const userExists = usersData.some((user) => user.id === user_id);
 
@@ -219,7 +219,7 @@ app.put("/payments/:id", jwtAuth, async (req, res) => {
   const { user_id, type, details, amount, currency, payment_status } = req.body;
 
   try {
-    const usersResponse = await axios.get("http://127.0.0.1:8000/users/");
+    const usersResponse = await axios.get("https://user-xojp.onrender.com/users/");
     const usersData = usersResponse.data;
     const userExists = usersData.some((user) => user.id === user_id);
 
@@ -318,7 +318,7 @@ app.get("/payments/user/:userId", jwtAuth, async (req, res) => {
 
   try {
     // Check if user exists in user service
-    const usersResponse = await axios.get("http://127.0.0.1:8000/users/");
+    const usersResponse = await axios.get("https://user-xojp.onrender.com/users/");
     const usersData = usersResponse.data;
     const userExists = usersData.some((user) => user.id === userId);
 
@@ -359,7 +359,7 @@ app.put("/payments/user/:userId", jwtAuth, async (req, res) => {
   
     try {
       // Check if user exists in user service
-      const usersResponse = await axios.get("http://127.0.0.1:8000/users/");
+      const usersResponse = await axios.get("https://user-xojp.onrender.com/users/");
       const usersData = usersResponse.data;
       const userExists = usersData.some((user) => user.id === userId);
   
