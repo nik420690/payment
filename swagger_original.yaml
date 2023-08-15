@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  title: Payments API
+  version: 1.0.0
+paths:
+  /api-docs:
+    get:
+      summary: Get the Swagger UI documentation
+      responses:
+        '200':
+          description: Successful response
+  /payments:
+    post:
+      summary: Create a new payment
+      security:
+        - customAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '201':
+          description: Payment created successfully
+        '500':
+          description: Failed to create payment
+    get:
+      summary: Get all payments
+      security:
+        - customAuth: []
+      responses:
+        '200':
+          description: Successful response
+        '500':
+          description: Failed to retrieve payments
+  /payments/user/{user_id}:
+    get:
+      summary: Get payments by user ID
+      security:
+        - customAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: No payments found for the user
+        '500':
+          description: Failed to retrieve payments
+  /payments/type/{type}:
+    get:
+      summary: Get payments by type
+      security:
+        - customAuth: []
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: No payments found for the type
+        '500':
+          description: Failed to retrieve payments
+  /payments/{id}:
+    get:
+      summary: Get payment by ID
+      security:
+        - customAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Payment not found
+        '500':
+          description: Failed to retrieve payment
+    put:
+      summary: Update payment by ID
+      security:
+        - customAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Payment not found
+        '500':
+          description: Failed to update payment
+    delete:
+      summary: Delete payment by ID
+      security:
+        - customAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment deleted successfully
+        '404':
+          description: Payment not found
+        '500':
+          description: Failed to delete payment
+  /payments:
+    delete:
+      summary: Delete all payments
+      security:
+        - customAuth: []
+      responses:
+        '200':
+          description: All payments deleted successfully
+        '500':
+          description: Failed to delete payments
+components:
+  schemas:
+    PaymentInput:
+      type: object
+      properties:
+        user_id:
+          type: string
+        type:
+          type: string
+        details:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        payment_status:
+          type: string
+  securitySchemes:
+    customAuth:
+      type: apiKey
+      in: header
+      name: token
